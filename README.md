@@ -1,4 +1,4 @@
-# deno-tl-log
+# deno-log (fork of deno-tl-log)
 
 [![ci](https://github.com/kawarimidoll/deno-tl-log/workflows/ci/badge.svg)](.github/workflows/ci.yml)
 [![deno.land](https://img.shields.io/badge/deno-%5E1.14.0-green?logo=deno)](https://deno.land)
@@ -8,7 +8,7 @@
 <img align="right" src="https://user-images.githubusercontent.com/8146876/132111226-d4eef47f-683b-4353-8c5a-fbd1f6314eea.png" alt="example">
 <!-- assets: https://github.com/kawarimidoll/deno-tl-log/issues/1 -->
 
-Time-Level-Log for Deno🦕
+BLUEITS: Extended Time-Level-Log for Deno🦕
 
 ## Usage
 
@@ -30,13 +30,13 @@ deno run https://deno.land/x/tl_log/examples/console.ts
 See [example file](examples/server.ts) or run it in your terminal.
 
 ```
-deno run --allow-env --allow-net https://deno.land/x/tl_log/examples/server.ts
+deno run --allow-env --allow-net https://raw.githubusercontent.com/BLUEITS-GmbH/deno-log/production/examples/server.ts
 ```
 
 You can also use [deployctl](https://github.com/deno_land/deployctl).
 
 ```
-deployctl run --libs="" https://deno.land/x/tl_log/examples/server.ts
+deployctl run --libs="" https://raw.githubusercontent.com/BLUEITS-GmbH/deno-log/production/examples/server.ts
 ```
 
 ## Motivation
@@ -57,3 +57,7 @@ method `console.warn` is called.
 - The log level indicators are inspired by
   [log_symbols](https://deno.land/x/log_symbols).
 - The datetime formats are powered by [Ptera](https://deno.land/x/ptera).
+
+## BLUEITS Extensions
+
+- added reference string as prefix of each log line.
