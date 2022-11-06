@@ -45,6 +45,7 @@ export class Log {
   private datetimeFormat: string;
   private levelSign: (logLevel: LogLevel) => string;
   private suffix: string[];
+  private reference: string;
 
   /**
    * Log constructor.
@@ -52,6 +53,7 @@ export class Log {
    * @param levelIndicator [default:"symbol"] Indicator type of log level.
    * @param datetimeFormat [default:"YYYY-MM-ddTHH:mm:ssZ"] Format of the timestamp. To use this, follow [the documentation of Ptera](https://tak-iwamoto.github.io/ptera/format.html).
    * @param addNewLine [default:false] Flag to add new line after the each log or not.
+   * @param reference [default:""] Reference text as prefix of each log line.
    *
    * @Example
    * ```ts
@@ -65,11 +67,13 @@ export class Log {
     levelIndicator = "symbol",
     datetimeFormat = "YYYY-MM-ddTHH:mm:ssZ",
     addNewLine = false,
+    reference = "",
   }: {
     minLogLevel?: LogLevel;
     levelIndicator?: "none" | "full" | "initial" | "symbol";
     datetimeFormat?: string;
     addNewLine?: boolean;
+    reference?: string;
   } = {}) {
     for (const level of Object.keys(LOG_LEVELS) as LogLevel[]) {
       if (minLogLevel === level) break;
@@ -78,7 +82,8 @@ export class Log {
 
     this.datetimeFormat = datetimeFormat;
     this.suffix = addNewLine ? ["\n"] : [];
-
+    this.reference = reference;
+    
     this.levelSign = {
       none: () => "",
       full: (logLevel: LogLevel) => " " + logLevel.toUpperCase().padEnd(5),
@@ -89,7 +94,7 @@ export class Log {
 
   private prefix(date: Date, logLevel: LogLevel) {
     const timestamp = datetime(date).format(this.datetimeFormat);
-    const prefix = `${timestamp}${this.levelSign(logLevel)}`.trimStart();
+    const prefix = `${this.reference}${timestamp}${this.levelSign(logLevel)}`.trimStart();
     return prefix ? [LOG_LEVELS[logLevel].color(prefix)] : [];
   }
 
