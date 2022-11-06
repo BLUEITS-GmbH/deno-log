@@ -22,7 +22,7 @@ See:
 See [example file](examples/console.ts) or run it in your terminal.
 
 ```
-deno run https://deno.land/x/tl_log/examples/console.ts
+deno run https://raw.githubusercontent.com/BLUEITS-GmbH/deno-log/production/examples/console.ts
 ```
 
 ### For Deno Deploy
