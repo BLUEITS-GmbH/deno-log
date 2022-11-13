@@ -3,7 +3,15 @@ import { Log, LogLevel } from "./mod.ts";
 
 const levels = ["debug", "info", "warn", "error"] as LogLevel[];
 
-const date = new Date(2020, 9, 6, 8, 2, 45);
+function convertTZ(date: Date | string, tzString: string) {
+  return new Date(
+    (typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {
+      timeZone: tzString,
+    })
+  );
+}
+const date = convertTZ(new Date(2020, 9, 6, 8, 2, 45), "Europe/Berlin");
+
 function generateLogPrefixes(log: Log) {
   // deno-lint-ignore no-explicit-any
   return levels.map((level) => (log as any).prefix(date, level));
@@ -13,10 +21,10 @@ Deno.test("normal", () => {
   assertEquals(
     generateLogPrefixes(new Log()),
     [
-      ["\x1b[0m2020-10-06T08:02:45+09:00 ✔\x1b[0m"],
-      ["\x1b[34m2020-10-06T08:02:45+09:00 ℹ\x1b[39m"],
-      ["\x1b[33m2020-10-06T08:02:45+09:00 ⚠\x1b[39m"],
-      ["\x1b[31m2020-10-06T08:02:45+09:00 ✖\x1b[39m"],
+      ["\x1b[0m2020-10-06T08:02:45+02:00 ✔\x1b[0m"],
+      ["\x1b[34m2020-10-06T08:02:45+02:00 ℹ\x1b[39m"],
+      ["\x1b[33m2020-10-06T08:02:45+02:00 ⚠\x1b[39m"],
+      ["\x1b[31m2020-10-06T08:02:45+02:00 ✖\x1b[39m"],
     ],
   );
 });
@@ -25,10 +33,10 @@ Deno.test("no levels", () => {
   assertEquals(
     generateLogPrefixes(new Log({ levelIndicator: "none" })),
     [
-      ["\x1b[0m2020-10-06T08:02:45+09:00\x1b[0m"],
-      ["\x1b[34m2020-10-06T08:02:45+09:00\x1b[39m"],
-      ["\x1b[33m2020-10-06T08:02:45+09:00\x1b[39m"],
-      ["\x1b[31m2020-10-06T08:02:45+09:00\x1b[39m"],
+      ["\x1b[0m2020-10-06T08:02:45+02:00\x1b[0m"],
+      ["\x1b[34m2020-10-06T08:02:45+02:00\x1b[39m"],
+      ["\x1b[33m2020-10-06T08:02:45+02:00\x1b[39m"],
+      ["\x1b[31m2020-10-06T08:02:45+02:00\x1b[39m"],
     ],
   );
 });
@@ -37,10 +45,10 @@ Deno.test("initial", () => {
   assertEquals(
     generateLogPrefixes(new Log({ levelIndicator: "initial" })),
     [
-      ["\x1b[0m2020-10-06T08:02:45+09:00 D\x1b[0m"],
-      ["\x1b[34m2020-10-06T08:02:45+09:00 I\x1b[39m"],
-      ["\x1b[33m2020-10-06T08:02:45+09:00 W\x1b[39m"],
-      ["\x1b[31m2020-10-06T08:02:45+09:00 E\x1b[39m"],
+      ["\x1b[0m2020-10-06T08:02:45+02:00 D\x1b[0m"],
+      ["\x1b[34m2020-10-06T08:02:45+02:00 I\x1b[39m"],
+      ["\x1b[33m2020-10-06T08:02:45+02:00 W\x1b[39m"],
+      ["\x1b[31m2020-10-06T08:02:45+02:00 E\x1b[39m"],
     ],
   );
 });
@@ -49,10 +57,10 @@ Deno.test("full", () => {
   assertEquals(
     generateLogPrefixes(new Log({ levelIndicator: "full" })),
     [
-      ["\x1b[0m2020-10-06T08:02:45+09:00 DEBUG\x1b[0m"],
-      ["\x1b[34m2020-10-06T08:02:45+09:00 INFO \x1b[39m"],
-      ["\x1b[33m2020-10-06T08:02:45+09:00 WARN \x1b[39m"],
-      ["\x1b[31m2020-10-06T08:02:45+09:00 ERROR\x1b[39m"],
+      ["\x1b[0m2020-10-06T08:02:45+02:00 DEBUG\x1b[0m"],
+      ["\x1b[34m2020-10-06T08:02:45+02:00 INFO \x1b[39m"],
+      ["\x1b[33m2020-10-06T08:02:45+02:00 WARN \x1b[39m"],
+      ["\x1b[31m2020-10-06T08:02:45+02:00 ERROR\x1b[39m"],
     ],
   );
 });
